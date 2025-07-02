@@ -1,6 +1,6 @@
 # genderapi-python
 
-Official Python SDK for [GenderAPI.io](https://genderapi.io) — determine gender from **names**, **emails**, and **usernames** using AI.
+Official Python SDK for [GenderAPI.io](https://www.genderapi.io) — determine gender from **names**, **emails**, and **usernames** using AI.
 
 ---
 
@@ -115,6 +115,32 @@ Example JSON response for all endpoints:
 | total_names       | Integer            | Number of samples behind the prediction.          |
 | probability       | Integer            | Likelihood percentage (50-100).                   |
 | duration          | String             | Processing time (e.g. `"4ms"`).                   |
+
+---
+
+## ⚠️ Error Codes
+
+When `status` is `false`, check the following error codes:
+
+| errno | errmsg                      | Description                                                       |
+|-------|-----------------------------|-------------------------------------------------------------------|
+| 50    | access denied               | Unauthorized IP Address or Referrer. Check your access privileges. |
+| 90    | invalid country code        | Check supported country codes. [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) |
+| 91    | name not set \|\| email not set | Missing `name` or `email` parameter on your request.         |
+| 92    | too many names \|\| too many emails | Limit is 100 for names, 50 for emails in one request.     |
+| 93    | limit reached               | The API key credit has been finished.                            |
+| 94    | invalid or missing key      | The API key cannot be found.                                      |
+| 99    | API key has expired         | Please renew your API key.                                       |
+
+Example error response:
+
+```json
+{
+    "status": false,
+    "errno": 94,
+    "errmsg": "invalid or missing key"
+}
+```
 
 ---
 
