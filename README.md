@@ -163,6 +163,28 @@ Example error response:
   "errmsg": "invalid or missing key"
 }
 ```
+---
+
+## 🔗 Live Test Pages
+
+You can try live gender detection directly on GenderAPI.io:
+
+- **Determine gender from a name:**  
+  [www.genderapi.io](https://www.genderapi.io)
+
+- **Determine gender from an email address:**  
+  [https://www.genderapi.io/determine-gender-from-email](https://www.genderapi.io/determine-gender-from-email)
+
+- **Determine gender from a username:**  
+  [https://www.genderapi.io/determine-gender-from-username](https://www.genderapi.io/determine-gender-from-username)
+
+---
+
+## 📚 Detailed API Documentation
+
+For the complete API reference, visit:
+
+[https://www.genderapi.io/api-documentation](https://www.genderapi.io/api-documentation)
 
 ---
 
