@@ -65,12 +65,6 @@ print(result)
 
 ## 📥 API Parameters
 
-### Common Parameters
-
-| Parameter | Type    | Required | Description |
-|-----------|---------|----------|-------------|
-| country   | String  | No       | Two-letter country code (e.g. "US"). Helps narrow down gender detection results by region. |
-| askToAI   | Boolean | No       | Default is `false`. If `true`, sends the query directly to AI for maximum accuracy, consuming 3 credits per request. If `false`, GenderAPI first tries its internal database and uses AI only if necessary, without spending 3 credits. Recommended for non-latin characters or unusual strings. |
 
 ---
 
@@ -79,6 +73,8 @@ print(result)
 | Parameter          | Type     | Required | Description |
 |--------------------|----------|----------|-------------|
 | name               | String   | Yes      | Name to query. |
+| country   | String  | No       | Two-letter country code (e.g. "US"). Helps narrow down gender detection results by region. |
+| askToAI   | Boolean | No       | Default is `false`. If `true`, sends the query directly to AI for maximum accuracy, consuming 3 credits per request. If `false`, GenderAPI first tries its internal database and uses AI only if necessary, without spending 3 credits. Recommended for non-latin characters or unusual strings. |
 | forceToGenderize   | Boolean  | No       | Default is `false`. When `true`, analyzes even nicknames, emojis, or unconventional strings like "spider man" instead of returning `null` for non-standard names. |
 
 ---
@@ -88,6 +84,8 @@ print(result)
 | Parameter | Type   | Required | Description |
 |-----------|--------|----------|-------------|
 | email     | String | Yes      | Email address to query. |
+| country   | String  | No       | Two-letter country code (e.g. "US"). Helps narrow down gender detection results by region. |
+| askToAI   | Boolean | No       | Default is `false`. If `true`, sends the query directly to AI for maximum accuracy, consuming 3 credits per request. If `false`, GenderAPI first tries its internal database and uses AI only if necessary, without spending 3 credits. Recommended for non-latin characters or unusual strings. |
 
 ---
 
@@ -96,6 +94,8 @@ print(result)
 | Parameter          | Type     | Required | Description |
 |--------------------|----------|----------|-------------|
 | username           | String   | Yes      | Username to query. |
+| country   | String  | No       | Two-letter country code (e.g. "US"). Helps narrow down gender detection results by region. |
+| askToAI   | Boolean | No       | Default is `false`. If `true`, sends the query directly to AI for maximum accuracy, consuming 3 credits per request. If `false`, GenderAPI first tries its internal database and uses AI only if necessary, without spending 3 credits. Recommended for non-latin characters or unusual strings. |
 | forceToGenderize   | Boolean  | No       | Default is `false`. When `true`, analyzes even nicknames, emojis, or unconventional strings like "spider man" instead of returning `null` for non-standard names. |
 
 ---
