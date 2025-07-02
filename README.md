@@ -1,6 +1,6 @@
 # genderapi-python
 
-Official Python SDK for [GenderAPI.io](https://www.genderapi.io) — determine gender from **names**, **emails**, and **usernames** using AI.
+Official Python SDK for [GenderAPI.io](https://genderapi.io) — determine gender from **names**, **emails**, and **usernames** using AI.
 
 ---
 
@@ -25,7 +25,12 @@ from genderapi import GenderAPI
 
 api = GenderAPI("YOUR_API_KEY")
 
+# Basic usage
 result = api.get_gender_by_name(name="Michael")
+print(result)
+
+# With askToAI set to True
+result = api.get_gender_by_name(name="李雷", askToAI=True)
 print(result)
 ```
 
@@ -36,6 +41,10 @@ print(result)
 ```python
 result = api.get_gender_by_email(email="michael.smith@example.com")
 print(result)
+
+# With askToAI set to True
+result = api.get_gender_by_email(email="michael.smith@example.com", askToAI=True)
+print(result)
 ```
 
 ---
@@ -45,18 +54,30 @@ print(result)
 ```python
 result = api.get_gender_by_username(username="michael_dev")
 print(result)
+
+# With askToAI set to True
+result = api.get_gender_by_username(username="michael_dev", askToAI=True)
+print(result)
 ```
 
 ---
 
 ## 📥 API Parameters
 
+### Common Parameters
+
+| Parameter | Required | Description             |
+|-----------|----------|-------------------------|
+| country   | No       | 2-letter country code (e.g. "US") |
+| askToAI   | No       | `true` or `false`. Default is `false`. If `true`, the query goes directly to AI and costs 3 requests. If `false`, the system tries its internal database first and only uses AI if necessary without spending 3 requests. Recommended for non-latin characters. |
+
+---
+
 ### Name Lookup
 
 | Parameter | Required | Description             |
 |-----------|----------|-------------------------|
 | name      | Yes      | Name to query           |
-| country   | No       | 2-letter country code (e.g. "US") |
 
 ---
 
@@ -65,7 +86,6 @@ print(result)
 | Parameter | Required | Description             |
 |-----------|----------|-------------------------|
 | email     | Yes      | Email address to query  |
-| country   | No       | 2-letter country code (e.g. "US") |
 
 ---
 
@@ -74,7 +94,6 @@ print(result)
 | Parameter | Required | Description             |
 |-----------|----------|-------------------------|
 | username  | Yes      | Username to query       |
-| country   | No       | 2-letter country code (e.g. "US") |
 
 ---
 
@@ -84,17 +103,17 @@ Example JSON response for all endpoints:
 
 ```json
 {
-    "status": true,
-    "used_credits": 1,
-    "remaining_credits": 4999,
-    "expires": 1743659200,
-    "q": "michael.smith@example.com",
-    "name": "Michael",
-    "gender": "male",
-    "country": "US",
-    "total_names": 325,
-    "probability": 98,
-    "duration": "4ms"
+  "status": true,
+  "used_credits": 1,
+  "remaining_credits": 4999,
+  "expires": 1743659200,
+  "q": "michael.smith@example.com",
+  "name": "Michael",
+  "gender": "male",
+  "country": "US",
+  "total_names": 325,
+  "probability": 98,
+  "duration": "4ms"
 }
 ```
 
@@ -136,9 +155,9 @@ Example error response:
 
 ```json
 {
-    "status": false,
-    "errno": 94,
-    "errmsg": "invalid or missing key"
+  "status": false,
+  "errno": 94,
+  "errmsg": "invalid or missing key"
 }
 ```
 
