@@ -44,12 +44,30 @@ class GenderAPI:
         return self._post_request("/api/username", {"username": username, "country": country, "askToAI": askToAI})
 
     def _post_request(self, endpoint, payload):
-        url = f"{self.base_url}{endpoint}"
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-        payload = {k: v for k, v in payload.items() if v is not None}
-        response = requests.post(url, json=payload, headers=headers)
-        response.raise_for_status()
-        return response.json()
+            url = f"{self.base_url}{endpoint}"
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {k: v for k, v in payload.items() if v is not None}
+
+            response = requests.post(url, json=payload, headers=headers)
+
+            if response.status_code == 500:
+                # raise HTTPError for 500
+                response.raise_for_status()
+
+            elif response.status_code != 200:
+                try:
+                    error_json = response.json()
+                except ValueError:
+                    error_json = {"error": "Response is not valid JSON", "raw_response": response.text}
+
+                raise requests.HTTPError(
+                    f"API returned HTTP {response.status_code}: {error_json}"
+                )
+
+            try:
+                return response.json()
+            except ValueError:
+                raise ValueError("Response content is not valid JSON.")
