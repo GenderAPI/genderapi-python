@@ -9,10 +9,9 @@ Official Python SDK for [GenderAPI.io](https://genderapi.io) — determine gende
 Install the required package:
 
 ```bash
-pip install requests
+pip install genderapi
 ```
 
-*(If not published on PyPI yet, clone the repo and install manually.)*
 
 ---
 
