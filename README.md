@@ -3,7 +3,7 @@
 Official Python SDK for [GenderAPI.io](https://www.genderapi.io) — determine gender from **names**, **emails**, and **usernames** using AI.
 
 ---
-Get Free API Key: [https://api.genderapi.io](https://api.genderapi.io)
+Get Free API Key: [https://app.genderapi.io](https://app.genderapi.io)
 ---
 
 ## 🚀 Installation
