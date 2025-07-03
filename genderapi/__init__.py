@@ -128,17 +128,8 @@ class GenderAPI:
 
         elif response.status_code != 200:
             try:
-                error_json = response.json()
+                return response.json()
             except ValueError:
-                error_json = {
-                    "error": "Response is not valid JSON",
-                    "raw_response": response.text
-                }
-            raise requests.HTTPError(
-                f"API returned HTTP {response.status_code}: {error_json}"
-            )
+                raise ValueError("Response content is not valid JSON.")
 
-        try:
-            return response.json()
-        except ValueError:
-            raise ValueError("Response content is not valid JSON.")
+
