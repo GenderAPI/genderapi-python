@@ -29,15 +29,8 @@ class GenderAPI:
 
         :param name: The name to analyze. (Required)
         :param country: Optional two-letter country code (e.g. "US") to improve accuracy.
-        :param askToAI:
-            - False (default): GenderAPI first tries its internal database.
-              Only if uncertain, it queries AI without spending 3 credits.
-            - True: Directly queries AI for higher accuracy but consumes 3 credits per request.
-        :param forceToGenderize:
-            - False (default): GenderAPI only analyzes real names.
-              If the input seems like a nickname, it returns "null".
-            - True: Even nicknames, emojis, or unconventional strings
-              like "spider man" or "🌸 butterfly dream" are analyzed for gender.
+        :param askToAI: See class docstring for details.
+        :param forceToGenderize: See class docstring for details.
         :return: JSON response as a Python dictionary.
         """
         return self._post_request(
@@ -56,10 +49,7 @@ class GenderAPI:
 
         :param email: The email address to analyze. (Required)
         :param country: Optional two-letter country code (e.g. "US") to improve accuracy.
-        :param askToAI:
-            - False (default): GenderAPI first tries its internal database.
-              Only if uncertain, it queries AI without spending 3 credits.
-            - True: Directly queries AI for higher accuracy but consumes 3 credits per request.
+        :param askToAI: See class docstring for details.
         :return: JSON response as a Python dictionary.
         """
         return self._post_request(
@@ -77,15 +67,8 @@ class GenderAPI:
 
         :param username: The username to analyze. (Required)
         :param country: Optional two-letter country code (e.g. "US") to improve accuracy.
-        :param askToAI:
-            - False (default): GenderAPI first tries its internal database.
-              Only if uncertain, it queries AI without spending 3 credits.
-            - True: Directly queries AI for higher accuracy but consumes 3 credits per request.
-        :param forceToGenderize:
-            - False (default): GenderAPI only analyzes real names.
-              If the input seems like a nickname, it returns "null".
-            - True: Even nicknames, emojis, or unconventional strings
-              like "spider man" or "🌸 butterfly dream" are analyzed for gender.
+        :param askToAI: See class docstring for details.
+        :param forceToGenderize: See class docstring for details.
         :return: JSON response as a Python dictionary.
         """
         return self._post_request(
@@ -95,6 +78,78 @@ class GenderAPI:
                 "country": country,
                 "askToAI": askToAI,
                 "forceToGenderize": forceToGenderize
+            }
+        )
+
+    def get_gender_by_name_bulk(self, data):
+        """
+        Determine gender for multiple names (bulk).
+
+        :param data: List of dicts, each containing:
+            - name (str): The name to analyze (required)
+            - country (str, optional)
+            - id (str or int, optional): Your own ID to match results
+        :return: JSON response as Python dictionary.
+        :raises ValueError: if data exceeds limit.
+        """
+        if not isinstance(data, list) or len(data) == 0:
+            raise ValueError("get_gender_by_name_bulk requires a non-empty list of data objects.")
+
+        if len(data) > 100:
+            raise ValueError("get_gender_by_name_bulk cannot exceed 100 records per request.")
+
+        return self._post_request(
+            "/api/name/multi/country",
+            {
+                "data": data
+            }
+        )
+
+    def get_gender_by_email_bulk(self, data):
+        """
+        Determine gender for multiple email addresses (bulk).
+
+        :param data: List of dicts, each containing:
+            - email (str): The email to analyze (required)
+            - country (str, optional)
+            - id (str or int, optional): Your own ID to match results
+        :return: JSON response as Python dictionary.
+        :raises ValueError: if data exceeds limit.
+        """
+        if not isinstance(data, list) or len(data) == 0:
+            raise ValueError("get_gender_by_email_bulk requires a non-empty list of data objects.")
+
+        if len(data) > 50:
+            raise ValueError("get_gender_by_email_bulk cannot exceed 50 records per request.")
+
+        return self._post_request(
+            "/api/email/multi",
+            {
+                "data": data
+            }
+        )
+
+    def get_gender_by_username_bulk(self, data):
+        """
+        Determine gender for multiple usernames (bulk).
+
+        :param data: List of dicts, each containing:
+            - username (str): The username to analyze (required)
+            - country (str, optional)
+            - id (str or int, optional): Your own ID to match results
+        :return: JSON response as Python dictionary.
+        :raises ValueError: if data exceeds limit.
+        """
+        if not isinstance(data, list) or len(data) == 0:
+            raise ValueError("get_gender_by_username_bulk requires a non-empty list of data objects.")
+
+        if len(data) > 50:
+            raise ValueError("get_gender_by_username_bulk cannot exceed 50 records per request.")
+
+        return self._post_request(
+            "/api/username/multi",
+            {
+                "data": data
             }
         )
 
@@ -130,6 +185,3 @@ class GenderAPI:
                 return response.json()
             except ValueError:
                 raise ValueError("Response content is not valid JSON.")
-
-
-

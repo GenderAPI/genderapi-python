@@ -3,7 +3,9 @@
 Official Python SDK for [GenderAPI.io](https://www.genderapi.io) — determine gender from **names**, **emails**, and **usernames** using AI.
 
 ---
+
 Get Free API Key: [https://app.genderapi.io](https://app.genderapi.io)
+
 ---
 
 ## 🚀 Installation
@@ -14,12 +16,13 @@ Install the required package:
 pip install genderapi
 ```
 
-
 ---
 
 ## 📝 Usage
 
-### 🔹 Get Gender by Name
+---
+
+### 🔹 Get Gender by Name (Single)
 
 ```python
 from genderapi import GenderAPI
@@ -30,34 +33,80 @@ api = GenderAPI("YOUR_API_KEY")
 result = api.get_gender_by_name(name="Michael")
 print(result)
 
-# With askToAI set to True
-result = api.get_gender_by_name(name="李雷", askToAI=True)
+# With askToAI and forceToGenderize
+result = api.get_gender_by_name(name="李雷", country="CN", askToAI=True, forceToGenderize=True)
 print(result)
 ```
 
 ---
 
-### 🔹 Get Gender by Email
+### 🔹 Get Gender by Email (Single)
 
 ```python
 result = api.get_gender_by_email(email="michael.smith@example.com")
 print(result)
 
-# With askToAI set to True
-result = api.get_gender_by_email(email="michael.smith@example.com", askToAI=True)
+# With country and askToAI
+result = api.get_gender_by_email(email="michael.smith@example.com", country="US", askToAI=True)
 print(result)
 ```
 
 ---
 
-### 🔹 Get Gender by Username
+### 🔹 Get Gender by Username (Single)
 
 ```python
 result = api.get_gender_by_username(username="michael_dev")
 print(result)
 
-# With askToAI set to True
-result = api.get_gender_by_username(username="michael_dev", askToAI=True)
+# With country, askToAI and forceToGenderize
+result = api.get_gender_by_username(username="spider_man", country="US", askToAI=True, forceToGenderize=True)
+print(result)
+```
+
+---
+
+### 🔹 Get Gender by Multiple Names (Bulk)
+
+Analyze up to **100 names** in a single request.
+
+```python
+result = api.get_gender_by_name_bulk([
+    {"name": "Andrea", "country": "DE", "id": "123"},
+    {"name": "andrea", "country": "IT", "id": "456"},
+    {"name": "james", "country": "US", "id": "789"}
+])
+
+print(result)
+```
+
+---
+
+### 🔹 Get Gender by Multiple Emails (Bulk)
+
+Analyze up to **50 emails** in a single request.
+
+```python
+result = api.get_gender_by_email_bulk([
+    {"email": "john@example.com", "country": "US", "id": "abc123"},
+    {"email": "maria@domain.de", "country": "DE", "id": "def456"}
+])
+
+print(result)
+```
+
+---
+
+### 🔹 Get Gender by Multiple Usernames (Bulk)
+
+Analyze up to **50 usernames** in a single request.
+
+```python
+result = api.get_gender_by_username_bulk([
+    {"username": "johnblack", "country": "US", "id": "u001"},
+    {"username": "maria2025", "country": "DE", "id": "u002"}
+])
+
 print(result)
 ```
 
@@ -65,44 +114,80 @@ print(result)
 
 ## 📥 API Parameters
 
-
 ---
 
-### Name Lookup
+### Name Lookup (Single)
 
 | Parameter          | Type     | Required | Description |
 |--------------------|----------|----------|-------------|
 | name               | String   | Yes      | Name to query. |
-| country   | String  | No       | Two-letter country code (e.g. "US"). Helps narrow down gender detection results by region. |
-| askToAI   | Boolean | No       | Default is `false`. If `true`, sends the query directly to AI for maximum accuracy, consuming 3 credits per request. If `false`, GenderAPI first tries its internal database and uses AI only if necessary, without spending 3 credits. Recommended for non-latin characters or unusual strings. |
-| forceToGenderize   | Boolean  | No       | Default is `false`. When `true`, analyzes even nicknames, emojis, or unconventional strings like "spider man" instead of returning `null` for non-standard names. |
+| country            | String   | No       | Two-letter country code (e.g. "US"). Helps improve accuracy. |
+| askToAI            | Boolean  | No       | Default is `False`. If `True`, sends query directly to AI for max accuracy, consuming 3 credits. |
+| forceToGenderize   | Boolean  | No       | Default is `False`. When `True`, analyzes nicknames, emojis, or unconventional strings instead of returning `null`. |
 
 ---
 
-### Email Lookup
+### Name Lookup (Bulk)
 
 | Parameter | Type   | Required | Description |
 |-----------|--------|----------|-------------|
-| email     | String | Yes      | Email address to query. |
-| country   | String  | No       | Two-letter country code (e.g. "US"). Helps narrow down gender detection results by region. |
-| askToAI   | Boolean | No       | Default is `false`. If `true`, sends the query directly to AI for maximum accuracy, consuming 3 credits per request. If `false`, GenderAPI first tries its internal database and uses AI only if necessary, without spending 3 credits. Recommended for non-latin characters or unusual strings. |
+| data      | List   | Yes      | List of name objects (max 100 per request). |
+| name      | String | Yes      | Name to analyze (inside each object). |
+| country   | String | No       | Two-letter country code. |
+| id        | String/Integer | No | Optional. Your own ID to match responses to records. |
 
 ---
 
-### Username Lookup
+### Email Lookup (Single)
+
+| Parameter | Type   | Required | Description |
+|-----------|--------|----------|-------------|
+| email     | String | Yes      | Email address to analyze. |
+| country   | String | No       | Two-letter country code. |
+| askToAI   | Boolean| No       | Default is `False`. If `True`, forces AI lookup. |
+
+---
+
+### Email Lookup (Bulk)
+
+| Parameter | Type   | Required | Description |
+|-----------|--------|----------|-------------|
+| data      | List   | Yes      | List of email objects (max 50 per request). |
+| email     | String | Yes      | Email to analyze (inside each object). |
+| country   | String | No       | Two-letter country code. |
+| id        | String/Integer | No | Optional. Your own ID to match responses to records. |
+
+---
+
+### Username Lookup (Single)
 
 | Parameter          | Type     | Required | Description |
 |--------------------|----------|----------|-------------|
-| username           | String   | Yes      | Username to query. |
-| country   | String  | No       | Two-letter country code (e.g. "US"). Helps narrow down gender detection results by region. |
-| askToAI   | Boolean | No       | Default is `false`. If `true`, sends the query directly to AI for maximum accuracy, consuming 3 credits per request. If `false`, GenderAPI first tries its internal database and uses AI only if necessary, without spending 3 credits. Recommended for non-latin characters or unusual strings. |
-| forceToGenderize   | Boolean  | No       | Default is `false`. When `true`, analyzes even nicknames, emojis, or unconventional strings like "spider man" instead of returning `null` for non-standard names. |
+| username           | String   | Yes      | Username to analyze. |
+| country            | String   | No       | Two-letter country code. |
+| askToAI            | Boolean  | No       | Default is `False`. Forces AI lookup if `True`. |
+| forceToGenderize   | Boolean  | No       | Default is `False`. Analyzes unconventional strings if `True`. |
+
+---
+
+### Username Lookup (Bulk)
+
+| Parameter | Type   | Required | Description |
+|-----------|--------|----------|-------------|
+| data      | List   | Yes      | List of username objects (max 50 per request). |
+| username  | String | Yes      | Username to analyze (inside each object). |
+| country   | String | No       | Two-letter country code. |
+| id        | String/Integer | No | Optional. Your own ID to match responses to records. |
 
 ---
 
 ## ✅ API Response
 
-Example JSON response for all endpoints:
+---
+
+### Single Response
+
+Example JSON response for single name, email, or username lookups:
 
 ```json
 {
@@ -122,21 +207,77 @@ Example JSON response for all endpoints:
 
 ---
 
+### Bulk (Multiple) Response
+
+Example JSON response for bulk name lookup (same structure for email and username bulk lookups):
+
+```json
+{
+  "status": true,
+  "used_credits": 3,
+  "remaining_credits": 7265,
+  "expires": 1717069765,
+  "names": [
+    {
+      "name": "andrea",
+      "q": "Andrea",
+      "gender": "female",
+      "country": "DE",
+      "total_names": 644,
+      "probability": 88,
+      "id": "123"
+    },
+    {
+      "name": "andrea",
+      "q": "andrea",
+      "gender": "male",
+      "country": "IT",
+      "total_names": 13537,
+      "probability": 98,
+      "id": "456"
+    },
+    {
+      "name": "james",
+      "q": "james",
+      "gender": "male",
+      "country": "US",
+      "total_names": 45274,
+      "probability": 100,
+      "id": "789"
+    }
+  ],
+  "duration": "5ms"
+}
+```
+
+---
+
 ### Response Fields
 
-| Field             | Type               | Description                                         |
-|-------------------|--------------------|-----------------------------------------------------|
-| status            | Boolean            | `true` or `false`. Check errors if false.          |
-| used_credits      | Integer            | Credits used for this request.                     |
-| remaining_credits | Integer            | Remaining credits on your package.                 |
-| expires           | Integer (timestamp)| Package expiration date (in seconds).             |
-| q                 | String             | Your input query (name, email, or username).       |
-| name              | String             | Found name.                                        |
-| gender            | Enum[String]       | `"male"`, `"female"`, or `"null"`.                |
-| country           | Enum[String]       | Most likely country (e.g. `"US"`, `"DE"`, etc.).  |
-| total_names       | Integer            | Number of samples behind the prediction.          |
-| probability       | Integer            | Likelihood percentage (50-100).                   |
-| duration          | String             | Processing time (e.g. `"4ms"`).                   |
+| Field               | Type               | Description                                         |
+|---------------------|--------------------|-----------------------------------------------------|
+| status              | Boolean            | Indicates whether the request was successful.       |
+| used_credits        | Integer            | Number of credits consumed for this request.       |
+| remaining_credits   | Integer            | Remaining credits on your package.                  |
+| expires             | Integer (timestamp)| Expiration date of your package (UNIX timestamp).   |
+| q                   | String             | Original query input (only in single response).     |
+| name                | String             | Normalized name/email/username.                     |
+| gender              | Enum[String]       | `"male"`, `"female"`, or `"null"`.                |
+| country             | String             | Country used in prediction.                         |
+| total_names         | Integer            | Number of samples used for prediction.             |
+| probability         | Integer            | Confidence percentage for the prediction.         |
+| names               | Array of Objects   | List of results (only in bulk response).          |
+| id                  | String / Integer   | Your own ID returned back (bulk only).            |
+| duration            | String             | Processing time for the request.                   |
+
+---
+
+## ⚠️ Limits
+
+- **Single requests** → 1 item per call.
+- **Bulk Name Lookup** → max **100 names** per request.
+- **Bulk Email Lookup** → max **50 emails** per request.
+- **Bulk Username Lookup** → max **50 usernames** per request.
 
 ---
 
@@ -144,15 +285,15 @@ Example JSON response for all endpoints:
 
 When `status` is `false`, check the following error codes:
 
-| errno | errmsg                      | Description                                                       |
-|-------|-----------------------------|-------------------------------------------------------------------|
-| 50    | access denied               | Unauthorized IP Address or Referrer. Check your access privileges. |
-| 90    | invalid country code        | Check supported country codes. [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) |
-| 91    | name not set \|\| email not set | Missing `name` or `email` parameter on your request.         |
-| 92    | too many names \|\| too many emails | Limit is 100 for names, 50 for emails in one request.     |
-| 93    | limit reached               | The API key credit has been finished.                            |
-| 94    | invalid or missing key      | The API key cannot be found.                                      |
-| 99    | API key has expired         | Please renew your API key.                                       |
+| errno | errmsg                        | Description                                                   |
+|-------|-------------------------------|---------------------------------------------------------------|
+| 50    | access denied                 | Unauthorized IP or referrer.                                  |
+| 90    | invalid country code          | Country code is invalid.                                      |
+| 91    | name/email/username not set   | Missing required parameter.                                   |
+| 92    | too many items in bulk        | Limit exceeded (100 for names, 50 for emails/usernames).     |
+| 93    | limit reached                 | Credits depleted.                                             |
+| 94    | invalid or missing key        | API key is invalid or missing.                               |
+| 99    | API key has expired           | Renew your API key.                                           |
 
 Example error response:
 
@@ -163,6 +304,7 @@ Example error response:
   "errmsg": "invalid or missing key"
 }
 ```
+
 ---
 
 ## 🔗 Live Test Pages
