@@ -123,7 +123,7 @@ class GenderAPI:
             raise ValueError("get_gender_by_email_bulk cannot exceed 50 records per request.")
 
         return self._post_request(
-            "/api/email/multi",
+            "/api/email/multi/country",
             {
                 "data": data
             }
@@ -147,7 +147,7 @@ class GenderAPI:
             raise ValueError("get_gender_by_username_bulk cannot exceed 50 records per request.")
 
         return self._post_request(
-            "/api/username/multi",
+            "/api/username/multi/python",
             {
                 "data": data
             }
