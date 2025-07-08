@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "genderapi"
-version = "1.1.2"
+version = "1.1.3"
 description = "Official Python SDK for GenderAPI.io"
 readme = "README.md"
 requires-python = ">=3.7"
