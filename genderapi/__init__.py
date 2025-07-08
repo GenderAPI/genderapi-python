@@ -122,14 +122,14 @@ class GenderAPI:
 
         response = requests.post(url, json=payload, headers=headers)
 
-        if response.status_code == 500:
-            # Raise HTTPError for server-side issues
+        if response.status_code in [500, 502, 503, 504, 408]:
+            # Raise HTTPError for server-side issues and timeouts
             response.raise_for_status()
-
-        elif response.status_code != 200:
+        else:
             try:
                 return response.json()
             except ValueError:
                 raise ValueError("Response content is not valid JSON.")
+
 
 
